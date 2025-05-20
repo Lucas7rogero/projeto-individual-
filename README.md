@@ -10,10 +10,13 @@ O objetivo deste projeto é oferecer uma plataforma que permita a criação, vis
 
 ```plataforma-eventos/
 ├── assets/
-├── config/
-│ └── database.js
+├── documentos/
+│ └── db.js
 ├── controllers/
-│ └── HomeController.js
+│ └── EventController.js
+│ └── SubscriptionController.js
+│ └── UserController.js
+├── migration/
 ├── models/
 │ └── User.js
 ├── node_modules/
@@ -28,7 +31,6 @@ O objetivo deste projeto é oferecer uma plataforma que permita a criação, vis
 ├── views/
 ├── .env.example
 ├── .gitignore
-├── jest.config.js
 ├── package.json
 ├── package-lock.json
 ├── readme.md
@@ -92,9 +94,9 @@ events — Armazena os eventos (nome, descrição, local, data)
 
 subscriptions — Armazena as inscrições dos usuários em eventos
 
-### O modelo físico (código SQL) está em: ./src/scrpts/202505101728.sql
+### O modelo físico (código SQL) está em: ./src/migration/202505201029.sql
 
-### O modelo relacional (diagrama visual) está em: modelo-banco.png
+### O modelo relacional (diagrama visual) está em: banco-relacional.svg
 
 # Licença
 
