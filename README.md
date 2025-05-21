@@ -6,7 +6,7 @@ O objetivo deste projeto é oferecer uma plataforma que permita a criação, vis
 
 ---
 
-## 🌐 Estrutura de Pastas
+## Estrutura de Pastas
 
 ```plataforma-eventos/
 ├── assets/
@@ -95,11 +95,11 @@ subscriptions — Armazena as inscrições dos usuários em eventos
 
 ### O modelo físico (código SQL) está em:
 
-./src/migration/202505201029.sql
+- ./src/migration/202505201029.sql
 
 ### O modelo relacional (diagrama visual) está em:
 
-banco-relacional.svg
+- banco-relacional.svg
 
 # Licença
 
