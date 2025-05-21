@@ -69,19 +69,19 @@ node server.js
 
 http://localhost:3000
 
-##Tecnologias Utilizadas
+## Tecnologias Utilizadas
 
-Node.js
+- Node.js
 
-Express.js
+- Express.js
 
-EJS
+- EJS
 
-PostgreSQL
+- PostgreSQL
 
-Dotenv
+- Dotenv
 
-MVC Pattern
+- MVC Pattern
 
 ## Modelo de Banco de Dados
 
@@ -94,9 +94,11 @@ events — Armazena os eventos (nome, descrição, local, data)
 subscriptions — Armazena as inscrições dos usuários em eventos
 
 ### O modelo físico (código SQL) está em:
+
 ./src/migration/202505201029.sql
 
 ### O modelo relacional (diagrama visual) está em:
+
 banco-relacional.svg
 
 # Licença
