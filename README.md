@@ -11,30 +11,30 @@ O objetivo deste projeto é oferecer uma plataforma que permita a criação, vis
 ```plataforma-eventos/
 ├── assets/
 ├── documentos/
-│ └── db.js
-├── controllers/
-│ └── EventController.js
-│ └── SubscriptionController.js
-│ └── UserController.js
-├── migration/
-├── models/
-│ └── User.js
 ├── node_modules/
-├── routes/
-│ └── index.js
-├── scripts/
-├── services/
-│ └── userService.js
-├── styles/
-├── tests/
-│ └── example.test.js
-├── views/
+├── src/
+│   └── controllers/
+│   │    └── EventController.js
+│   │    └── SubscriptionController.js
+│   │    └── UserController.js
+│   └── migration/
+│   │    └── .sql
+│   │    └── runSQLscript.js
+│   └── models/
+│   │    └── EventModel.js
+│   │    └── SubscriptionModel.js
+│   │    └── UserModel.js
+│   └── routes/
+│   │    └── index.js
+│   └── routes/
+├── .env
 ├── .env.example
 ├── .gitignore
-├── package.json
 ├── package-lock.json
+├── package.json
 ├── readme.md
 ├── server.js
+├── wad.js
 
 ```
 
@@ -51,13 +51,12 @@ npm install
 Crie um arquivo .env na raiz do projeto com as seguintes informações:
 
 ```
-DB_USER=postgres.ccyleparevarwyflrmqm
-DB_HOST=aws-0-sa-east-1.pooler.supabase.com
-DB_DATABASE=postgres
-DB_PASSWORD=QEVGqz5U0JxKTfOG
-DB_PORT=6543
-DB_SSL=true
-PORT=3000
+DB_USER="postgres.xxkarnrbvpgcxfhhlwcx"
+DB_HOST="aws-0-us-east-2.pooler.supabase.com"
+DB_DATABASE="postgres"
+DB_PASSWORD="yGoBuSNEMLC9WWnB"
+DB_PORT="6543"
+DB_SSL="true"
 ```
 
 ### 3. Inicie o servidor
@@ -94,9 +93,11 @@ events — Armazena os eventos (nome, descrição, local, data)
 
 subscriptions — Armazena as inscrições dos usuários em eventos
 
-### O modelo físico (código SQL) está em: ./src/migration/202505201029.sql
+### O modelo físico (código SQL) está em:
+./src/migration/202505201029.sql
 
-### O modelo relacional (diagrama visual) está em: banco-relacional.svg
+### O modelo relacional (diagrama visual) está em:
+banco-relacional.svg
 
 # Licença
 
