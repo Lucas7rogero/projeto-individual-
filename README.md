@@ -69,6 +69,30 @@ node server.js
 
 http://localhost:3000
 
+## Endpoints da API
+
+### Usuários
+
+- `POST /api/users` - Criar novo usuário  
+- `GET /api/users` - Listar todos os usuários  
+- `PUT /api/users/:id` - Editar usuário  
+- `DELETE /api/users/:id` - Excluir usuário  
+
+### Eventos
+
+- `POST /api/events` - Criar novo evento  
+- `GET /api/events` - Listar eventos  
+- `PUT /api/events/:id` - Editar evento  
+- `DELETE /api/events/:id` - Excluir evento  
+
+### Inscrições
+
+- `POST /api/subscriptions` - Criar inscrição  
+- `GET /api/subscriptions` - Listar inscrições  
+- `PUT /api/subscriptions/:id` - Editar inscrição  
+- `DELETE /api/subscriptions/:id` - Excluir inscrição  
+
+
 ## Tecnologias Utilizadas
 
 - Node.js
