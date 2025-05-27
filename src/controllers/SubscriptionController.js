@@ -1,18 +1,21 @@
-const SubscriptionModel = require('../models/SubscriptionModel');
+const SubscriptionService = require("../services/SubscriptionService");
 
 exports.criarSubscription = async (req, res) => {
   try {
     const { user_id, event_id } = req.body;
-    const subscription = await SubscriptionModel.criarSubscription(user_id, event_id);
+    const subscription = await SubscriptionService.createSubscription(
+      user_id,
+      event_id
+    );
     res.status(201).json(subscription);
   } catch (err) {
-    res.status(500).json({ error: err.message });
+    res.status(400).json({ error: err.message });
   }
 };
 
 exports.listarSubscriptions = async (req, res) => {
   try {
-    const subscriptions = await SubscriptionModel.listarSubscriptions();
+    const subscriptions = await SubscriptionService.getAllSubscriptions();
     res.status(200).json(subscriptions);
   } catch (err) {
     res.status(500).json({ error: err.message });
@@ -22,26 +25,28 @@ exports.listarSubscriptions = async (req, res) => {
 exports.editarSubscription = async (req, res) => {
   try {
     const { user_id, event_id } = req.body;
-    const subscription = await SubscriptionModel.editarSubscription(req.params.id, user_id, event_id);
-
-    if (!subscription) {
-      return res.status(404).json({ message: 'Inscrição não encontrada' });
-    }
-
+    const subscription = await SubscriptionService.updateSubscription(
+      req.params.id,
+      user_id,
+      event_id
+    );
     res.status(200).json(subscription);
   } catch (err) {
-    res.status(500).json({ error: err.message });
+    if (err.message === "Inscrição não encontrada") {
+      return res.status(404).json({ error: err.message });
+    }
+    res.status(400).json({ error: err.message });
   }
 };
 
 exports.excluirSubscription = async (req, res) => {
   try {
-    const subscription = await SubscriptionModel.excluirSubscription(req.params.id);
-    if (!subscription) {
-      return res.status(404).json({ message: 'Inscrição não encontrada' });
-    }
-    res.status(200).json({ message: 'Inscrição excluída com sucesso' });
+    await SubscriptionService.deleteSubscription(req.params.id);
+    res.status(200).json({ message: "Inscrição excluída com sucesso" });
   } catch (err) {
-    res.status(500).json({ error: err.message });
+    if (err.message === "Inscrição não encontrada") {
+      return res.status(404).json({ error: err.message });
+    }
+    res.status(400).json({ error: err.message });
   }
 };
