@@ -167,9 +167,9 @@
 
     <script>
       const formData = {
-        action: '<%= action %>',
-        method: '<%= method %>',
-        evento: <%- evento ? JSON.stringify(evento) : 'null' %>
+        action: "<%= action %>",
+        method: "<%= method %>",
+        evento: "<%- evento ? JSON.stringify(evento) : null %>",
       };
     </script>
     <script src="/public/js/evento-form.js"></script>
