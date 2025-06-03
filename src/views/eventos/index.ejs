@@ -1,66 +1,86 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Eventos - Plataforma de Eventos</title>
-    <link rel="stylesheet" href="/public/css/style.css">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
-</head>
-<body>
+    <link rel="stylesheet" href="/public/css/style.css" />
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
     <nav class="navbar">
-        <div class="nav-container">
-            <h1 class="nav-logo">
-                <a href="/eventos">
-                    <i class="fas fa-calendar-alt"></i>
-                    Plataforma de Eventos
-                </a>
-            </h1>
-            <ul class="nav-menu">
-                <li class="nav-item"><a href="/eventos" class="nav-link active"><i class="fas fa-calendar"></i>Eventos</a></li>
-                <li class="nav-item"><a href="/usuarios" class="nav-link"><i class="fas fa-users"></i>Usuários</a></li>
-                <li class="nav-item"><a href="/inscricoes" class="nav-link"><i class="fas fa-clipboard-list"></i>Inscrições</a></li>
-            </ul>
-        </div>
+      <div class="nav-container">
+        <h1 class="nav-logo">
+          <a href="/eventos">
+            <i class="fas fa-calendar-alt"></i>
+            Plataforma de Eventos
+          </a>
+        </h1>
+        <ul class="nav-menu">
+          <li class="nav-item">
+            <a href="/eventos" class="nav-link active"
+              ><i class="fas fa-calendar"></i>Eventos</a
+            >
+          </li>
+          <li class="nav-item">
+            <a href="/usuarios" class="nav-link"
+              ><i class="fas fa-users"></i>Usuários</a
+            >
+          </li>
+          <li class="nav-item">
+            <a href="/inscricoes" class="nav-link"
+              ><i class="fas fa-clipboard-list"></i>Inscrições</a
+            >
+          </li>
+        </ul>
+      </div>
     </nav>
 
     <main class="main-content">
-        <div class="container">
-            <div class="page-header">
-                <h1><i class="fas fa-calendar"></i>Eventos</h1>
-                <a href="/eventos/novo" class="btn btn-primary">
-                    <i class="fas fa-plus"></i>
-                    Novo Evento
-                </a>
-            </div>
-            <div class="table-container">
-                <table class="data-table">
-                    <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>Título</th>
-                            <th>Data</th>
-                            <th>Local</th>
-                            <th>Organizador</th>
-                            <th>Ações</th>
-                        </tr>
-                    </thead>
-                    <tbody id="eventosTable">
-                        <!-- Eventos serão carregados via JavaScript -->
-                    </tbody>
-                </table>
-            </div>
+      <div class="container">
+        <div class="page-header">
+          <h1><i class="fas fa-calendar"></i>Eventos</h1>
+          <a href="/eventos/novo" class="btn btn-primary">
+            <i class="fas fa-plus"></i>
+            Novo Evento
+          </a>
         </div>
+        <div class="table-container">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>ID</th>
+
+                <th>Título</th>
+
+                <th>Data</th>
+
+                <th>Local</th>
+
+                <th>Organizador</th>
+
+                <th>Ações</th>
+              </tr>
+            </thead>
+            <tbody id="eventosTable">
+              <!-- Eventos serão carregados via JavaScript -->
+            </tbody>
+          </table>
+        </div>
+      </div>
     </main>
 
     <div id="loading" class="loading hidden">
-        <div class="spinner"></div>
-        <p>Carregando...</p>
+      <div class="spinner"></div>
+      <p>Carregando...</p>
     </div>
     <div id="toast" class="toast hidden">
-        <span id="toast-message"></span>
-        <button id="toast-close">&times;</button>
+      <span id="toast-message"></span>
+      <button id="toast-close">&times;</button>
     </div>
     <script src="/public/js/eventos.js"></script>
-</body>
+  </body>
 </html>
