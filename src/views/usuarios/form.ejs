@@ -17,24 +17,9 @@
                 </a>
             </h1>
             <ul class="nav-menu">
-                <li class="nav-item">
-                    <a href="/eventos" class="nav-link">
-                        <i class="fas fa-calendar"></i>
-                        Eventos
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="/usuarios" class="nav-link active">
-                        <i class="fas fa-users"></i>
-                        Usuários
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="/inscricoes" class="nav-link">
-                        <i class="fas fa-clipboard-list"></i>
-                        Inscrições
-                    </a>
-                </li>
+                <li class="nav-item"><a href="/eventos" class="nav-link"><i class="fas fa-calendar"></i>Eventos</a></li>
+                <li class="nav-item"><a href="/usuarios" class="nav-link active"><i class="fas fa-users"></i>Usuários</a></li>
+                <li class="nav-item"><a href="/inscricoes" class="nav-link"><i class="fas fa-clipboard-list"></i>Inscrições</a></li>
             </ul>
         </div>
     </nav>
@@ -42,94 +27,48 @@
     <main class="main-content">
         <div class="container">
             <div class="page-header">
-                <div class="header-left">
-                    <a href="/usuarios" class="back-link">
-                        <i class="fas fa-arrow-left"></i>
-                        Voltar
-                    </a>
-                    <h1><%= titulo %></h1>
-                </div>
+                <a href="/usuarios" class="back-link"><i class="fas fa-arrow-left"></i>Voltar</a>
+                <h1><%= titulo %></h1>
             </div>
+            <form id="userForm" class="form">
+                <div class="form-group">
+                    <label for="nome">Nome *</label>
+                    <input type="text" id="nome" name="nome" required maxlength="255" />
+                </div>
+                <div class="form-group">
+                    <label for="email">Email *</label>
+                    <input type="email" id="email" name="email" required maxlength="255" />
+                </div>
+                <div class="form-group">
+                    <label for="senha">Senha *</label>
+                    <input type="password" id="senha" name="senha" minlength="6" <%= method === 'POST' ? 'required' : '' %> />
+                </div>
+                <div class="form-actions">
+                    <a href="/usuarios" class="btn btn-secondary"><i class="fas fa-times"></i>Cancelar</a>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-save"></i>
+                        <%= method === 'POST' ? 'Criar Usuário' : 'Salvar Alterações' %>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </main>
 
-            <div class="form-container">
-                <form id="userForm" class="form">
-                    <div class="form-grid">
-                        <div class="form-group full-width">
-                            <label for="nome">
-                                <i class="fas fa-user"></i>
-                                Nome Completo *
-                            </label>
-                            <input 
-                                type="text" 
-                                id="nome" 
-                                name="nome" 
-                                required 
-                                placeholder="Ex: João da Silva"
-                                maxlength="255"
-                            >
-                            <span class="error-message" id="nome-error"></span>
-                        </div>
-
-                        <div class="form-group full-width">
-                            <label for="email">
-                                <i class="fas fa-envelope"></i>
-                                Email *
-                            </label>
-                            <input 
-                                type="email" 
-                                id="email" 
-                                name="email" 
-                                required 
-                                placeholder="Ex: joao@exemplo.com"
-                                maxlength="255"
-                            >
-                            <span class="error-message" id="email-error"></span>
-                        </div>
-
-                        <div class="form-group full-width">
-                            <label for="senha">
-                                <i class="fas fa-lock"></i>
-                                Senha *
-                            </label>
-                            <div class="password-input">
-                                <input 
-                                    type="password" 
-                                    id="senha" 
-                                    name="senha" 
-                                    required 
-                                    placeholder="Mínimo 6 caracteres"
-                                    minlength="6"
-                                >
-                                <button type="button" class="password-toggle" onclick="togglePassword()">
-                                    <i class="fas fa-eye" id="passwordIcon"></i>
-                                </button>
-                            </div>
-                            <div class="password-strength">
-                                <div class="strength-bar">
-                                    <div class="strength-fill" id="strengthFill"></div>
-                                </div>
-                                <span class="strength-text" id="strengthText">Digite uma senha</span>
-                            </div>
-                            <span class="error-message" id="senha-error"></span>
-                        </div>
-
-                        <div class="form-group full-width">
-                            <label for="confirmarSenha">
-                                <i class="fas fa-lock"></i>
-                                Confirmar Senha *
-                            </label>
-                            <input 
-                                type="password" 
-                                id="confirmarSenha" 
-                                name="confirmarSenha" 
-                                required 
-                                placeholder="Digite a senha novamente"
-                                minlength="6"
-                            >
-                            <span class="error-message" id="confirmarSenha-error"></span>
-                        </div>
-                    </div>
-
-                    <div class="form-actions">
-                        <a href="/usuarios" class="btn btn-secondary">
-                            <i class="fas fa-times"></i
+    <div id="loading" class="loading hidden">
+        <div class="spinner"></div>
+        <p>Salvando...</p>
+    </div>
+    <div id="toast" class="toast hidden">
+        <span id="toast-message"></span>
+        <button id="toast-close">&times;</button>
+    </div>
+    <script>
+        const formData = {
+            action: '<%= action %>',
+            method: '<%= method %>',
+            usuario: '<%- usuario ? JSON.stringify(usuario) : null %>',
+        };
+    </script>
+    <script src="/public/js/usuario-form.js"></script>
+</body>
+</html>

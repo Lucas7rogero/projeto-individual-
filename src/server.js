@@ -2,14 +2,15 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const cors = require("cors");
 const path = require("path");
-const routes = require("./src/routes/index");
+const routes = require("./routes/index");
 
 const app = express();
 const port = 3000;
 
 // Configurar EJS como template engine
 app.set("view engine", "ejs");
-app.set("views", path.join(__dirname, "src/views"));
+app.set("views", path.join(__dirname, "views"));
+
 
 // Middlewares
 app.use(cors());
