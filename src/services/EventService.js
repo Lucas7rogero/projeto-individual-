@@ -3,7 +3,7 @@ const UserRepository = require('../repositories/UserRepository');
 
 class EventService {
   async createEvent(titulo, descricao, local, data, user_id) {
-    // Validação de entrada
+
     if (!titulo || !descricao || !local || !data || !user_id) {
       throw new Error('Todos os campos são obrigatórios');
     }
@@ -12,13 +12,13 @@ class EventService {
       throw new Error('ID do usuário inválido');
     }
 
-    // Verificar se o usuário existe
+
     const user = await UserRepository.findById(user_id);
     if (!user) {
       throw new Error('Usuário não encontrado');
     }
 
-    // Validar data
+
     const eventDate = new Date(data);
     const now = new Date();
     
@@ -26,7 +26,7 @@ class EventService {
       throw new Error('A data do evento deve ser no futuro');
     }
 
-    // Criar evento
+
     return await EventRepository.create(titulo, descricao, local, data, user_id);
   }
 
@@ -56,7 +56,7 @@ class EventService {
       throw new Error('ID do usuário inválido');
     }
 
-    // Verificar se o usuário existe
+
     const user = await UserRepository.findById(user_id);
     if (!user) {
       throw new Error('Usuário não encontrado');
@@ -70,13 +70,12 @@ class EventService {
       throw new Error('ID inválido');
     }
 
-    // Verificar se o evento existe
+
     const existingEvent = await EventRepository.findById(id);
     if (!existingEvent) {
       throw new Error('Evento não encontrado');
     }
 
-    // Validação de entrada
     if (!titulo || !descricao || !local || !data || !user_id) {
       throw new Error('Todos os campos são obrigatórios');
     }
@@ -85,13 +84,13 @@ class EventService {
       throw new Error('ID do usuário inválido');
     }
 
-    // Verificar se o usuário existe
+
     const user = await UserRepository.findById(user_id);
     if (!user) {
       throw new Error('Usuário não encontrado');
     }
 
-    // Validar data
+
     const eventDate = new Date(data);
     const now = new Date();
     

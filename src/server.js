@@ -7,20 +7,20 @@ const routes = require("./routes/index");
 const app = express();
 const port = 3000;
 
-// Configurar EJS como template engine
+
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
 
 
-// Middlewares
+
 app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-// Servir arquivos estáticos (CSS, JS, imagens)
+
 app.use("/public", express.static(path.join(__dirname, "public")));
 
-// Rotas para views (páginas)
+
 app.get("/", async (req, res) => {
   res.redirect("/eventos");
 });
@@ -69,7 +69,7 @@ app.get("/inscricoes", (req, res) => {
   res.render("inscricoes/index");
 });
 
-// Usando as rotas da API
+
 app.use("/api", routes);
 
 app.listen(port, () => {

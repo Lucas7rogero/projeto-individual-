@@ -2,7 +2,7 @@ const UserRepository = require('../repositories/UserRepository');
 
 class UserService {
   async createUser(nome, email, senha) {
-    // Validação de entrada
+
     if (!nome || !email || !senha) {
       throw new Error('Nome, email e senha são obrigatórios');
     }
@@ -15,13 +15,13 @@ class UserService {
       throw new Error('Senha deve ter pelo menos 6 caracteres');
     }
 
-    // Verificar se o email já existe
+
     const existingUser = await UserRepository.findByEmail(email);
     if (existingUser) {
       throw new Error('Email já está em uso');
     }
 
-    // Criar usuário
+
     return await UserRepository.create(nome, email, senha);
   }
 
@@ -47,7 +47,7 @@ class UserService {
       throw new Error('ID inválido');
     }
 
-    // Verificar se o usuário existe
+
     const existingUser = await UserRepository.findById(id);
     if (!existingUser) {
       throw new Error('Usuário não encontrado');
@@ -66,7 +66,7 @@ class UserService {
       throw new Error('Senha deve ter pelo menos 6 caracteres');
     }
 
-    // Verificar se o email já está em uso por outro usuário
+
     const userWithEmail = await UserRepository.findByEmail(email);
     if (userWithEmail && userWithEmail.id !== parseInt(id)) {
       throw new Error('Email já está em uso por outro usuário');
