@@ -3,33 +3,55 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Cadastro de Usuário</title>
+  <title><%= usuario ? 'Editar Usuário' : 'Cadastro de Usuário' %></title>
   <link rel="stylesheet" href="/public/css/style.css" />
 </head>
 <body>
   <main class="main-content">
     <div class="container" style="max-width: 400px; margin: 2rem auto;">
-      <h1>Cadastro de Usuário</h1>
-      <form action="/usuarios" method="POST" class="form">
+      <h1><%= usuario ? 'Editar Usuário' : 'Cadastro de Usuário' %></h1>
+      <form 
+        action="<%= usuario ? '/usuarios/' + usuario.id : '/usuarios' %>" 
+        method="POST" 
+        class="form"
+      >
         <div class="form-group">
           <label for="nome">Nome *</label>
-          <input type="text" id="nome" name="nome" required maxlength="255" />
+          <input 
+            type="text" 
+            id="nome" 
+            name="nome" 
+            required 
+            maxlength="255" 
+            value="<%= usuario ? usuario.nome : '' %>" 
+          />
         </div>
         <div class="form-group">
           <label for="idade">Idade *</label>
-          <input type="number" id="idade" name="idade" required min="1" max="120" />
+          <input 
+            type="number" 
+            id="idade" 
+            name="idade" 
+            required 
+            min="1" 
+            max="120" 
+            value="<%= usuario ? usuario.idade : '' %>" 
+          />
         </div>
         <div class="form-group">
           <label for="evento">Evento *</label>
           <select id="evento" name="evento" required>
             <option value="">Selecione um evento</option>
-            <option value="Pagode">Pagode</option>
-            <option value="Rock">Rock</option>
-            <option value="Sertanejo">Sertanejo</option>
+            <option value="Pagode" <%= usuario && usuario.evento === 'Pagode' ? 'selected' : '' %>>Pagode</option>
+            <option value="Rock" <%= usuario && usuario.evento === 'Rock' ? 'selected' : '' %>>Rock</option>
+            <option value="Sertanejo" <%= usuario && usuario.evento === 'Sertanejo' ? 'selected' : '' %>>Sertanejo</option>
           </select>
         </div>
         <div class="form-actions">
-          <button type="submit" class="btn btn-primary">Cadastrar</button>
+          <button type="submit" class="btn btn-primary">
+            <%= usuario ? 'Salvar Alterações' : 'Cadastrar' %>
+          </button>
+          <a href="/inscricoes" class="btn btn-secondary" style="margin-left: 10px;">Voltar</a>
         </div>
       </form>
     </div>
