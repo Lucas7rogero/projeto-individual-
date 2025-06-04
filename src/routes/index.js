@@ -1,26 +1,31 @@
-
 const express = require("express");
 const router = express.Router();
-const EventController = require("../controllers/EventController");
-const SubscriptionController = require("../controllers/SubscriptionController");
-const UserController = require("../controllers/UserController");
 
+const inscricoes = [];
 
-router.post("/events", EventController.criarEvent);
-router.get("/events", EventController.listarEvents);
-router.put("/events/:id", EventController.editarEvent);
-router.delete("/events/:id", EventController.excluirEvent);
+router.get("/", (req, res) => {
+  res.render("inicio/cadastro");
+});
 
+router.post("/cadastrar", (req, res) => {
+  const { nome, email, senha, idade, eventos } = req.body;
 
-router.post("/subscriptions", SubscriptionController.criarSubscription);
-router.get("/subscriptions", SubscriptionController.listarSubscriptions);
-router.put("/subscriptions/:id", SubscriptionController.editarSubscription);
-router.delete("/subscriptions/:id", SubscriptionController.excluirSubscription);
+  let eventosEscolhidos = [];
+  if (Array.isArray(eventos)) {
+    eventosEscolhidos = eventos;
+  } else if (typeof eventos === "string") {
+    eventosEscolhidos = [eventos];
+  }
+  inscricoes.push({ nome, email, senha, idade, eventos: eventosEscolhidos });
+  res.redirect("/confirmacao");
+});
 
+router.get("/confirmacao", (req, res) => {
+  res.render("inicio/confirmacao");
+});
 
-router.post("/users", UserController.criarUser);
-router.get("/users", UserController.listarUsers);
-router.put("/users/:id", UserController.editarUser);
-router.delete("/users/:id", UserController.excluirUser);
+router.get("/lista", (req, res) => {
+  res.render("eventos/index", { inscricoes });
+});
 
 module.exports = router;
