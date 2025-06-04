@@ -1,50 +1,30 @@
-const UserService = require("../services/UserService");
+const bcrypt = require("bcrypt");
 
-exports.criarUser = async (req, res) => {
-  try {
-    const { nome, email, senha } = req.body;
-    const user = await UserService.createUser(nome, email, senha);
-    res.status(201).json(user);
-  } catch (err) {
-    res.status(400).json({ error: err.message });
+class UserController {
+  constructor() {
+    this.usuarios = [];
+    this.idCounter = 1;
   }
-};
 
-exports.listarUsers = async (req, res) => {
-  try {
-    const users = await UserService.getAllUsers();
-    res.status(200).json(users);
-  } catch (err) {
-    res.status(500).json({ error: err.message });
+  cadastrar(req, res) {
+    const { nome, senha } = req.body;
+    const hash = bcrypt.hashSync(senha, 10);
+    const novoUsuario = { id: this.idCounter++, nome, senha: hash };
+    this.usuarios.push(novoUsuario);
+    console.log("Usuário cadastrado:", novoUsuario);
+    res.redirect("/login");
   }
-};
 
-exports.editarUser = async (req, res) => {
-  try {
-    const { nome, email, senha } = req.body;
-    const user = await UserService.updateUser(
-      req.params.id,
-      nome,
-      email,
-      senha
-    );
-    res.status(200).json(user);
-  } catch (err) {
-    if (err.message === "Usuário não encontrado") {
-      return res.status(404).json({ error: err.message });
+  login(req, res) {
+    const { nome, senha } = req.body;
+    const usuario = this.usuarios.find((u) => u.nome === nome);
+    if (usuario && bcrypt.compareSync(senha, usuario.senha)) {
+      res.render("tasks", { userId: usuario.id });
+      console.log("Login bem-sucedido:", usuario);
+    } else {
+      res.send("Login inválido!");
     }
-    res.status(400).json({ error: err.message });
   }
-};
+}
 
-exports.excluirUser = async (req, res) => {
-  try {
-    await UserService.deleteUser(req.params.id);
-    res.status(200).json({ message: "Usuário excluído com sucesso" });
-  } catch (err) {
-    if (err.message === "Usuário não encontrado") {
-      return res.status(404).json({ error: err.message });
-    }
-    res.status(400).json({ error: err.message });
-  }
-};
+module.exports = UserController;
