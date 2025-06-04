@@ -1,29 +1,51 @@
 const express = require("express");
 const bodyParser = require("body-parser");
+const cors = require("cors");
 const path = require("path");
-
-const UserController = require("./controllers/userController");
-const TaskController = require("./controllers/taskController");
+const routes = require("./routes/index");
 
 const app = express();
-const userController = new UserController();
-const taskController = new TaskController();
+const port = 3000;
 
 app.set("view engine", "ejs");
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(express.static(path.join(__dirname, "public")));
+app.set("views", path.join(__dirname, "views"));
 
-// Rotas
-app.get("/", (req, res) => res.redirect("/login"));
+app.use(cors());
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 
-app.get("/login", (req, res) => res.render("login"));
-app.post("/login", (req, res) => userController.login(req, res));
+app.use("/public", express.static(path.join(__dirname, "public")));
 
-app.get("/cadastro", (req, res) => res.render("cadastro"));
-app.post("/cadastro", (req, res) => userController.cadastrar(req, res));
+app.use("/", routes);
 
-app.get("/tasks", (req, res) => taskController.listar(req, res));
-app.post("/tasks", (req, res) => taskController.adicionar(req, res));
+app.get("/eventos/novo", (req, res) => {
+  res.render("eventos/form", {
+    evento: null,
+    action: "/api/events",
+    method: "POST",
+    titulo: "Criar Novo Evento",
+  });
+});
 
-const PORT = 3000;
-app.listen(PORT, () => console.log(`Servidor rodando na porta ${PORT}`));
+app.get("/eventos/editar/:id", (req, res) => {
+  res.render("eventos/form", {
+    evento: { id: req.params.id },
+    action: `/api/events/${req.params.id}`,
+    method: "PUT",
+    titulo: "Editar Evento",
+  });
+});
+
+app.get("/usuarios/novo", (req, res) => {
+  res.render("usuarios/form", {
+    usuario: null,
+    action: "/api/users",
+    method: "POST",
+    titulo: "Criar Novo Usuário",
+  });
+});
+
+app.listen(port, () => {
+  console.log(`Servidor rodando na porta ${port}`);
+  console.log(`Acesse: http://localhost:${port}`);
+});
