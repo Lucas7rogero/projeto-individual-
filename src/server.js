@@ -1,3 +1,4 @@
+require("dotenv").config(); // Carrega variáveis do .env
 const express = require("express");
 const bodyParser = require("body-parser");
 const cors = require("cors");
@@ -14,36 +15,13 @@ app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-app.use("/public", express.static(path.join(__dirname, "public")));
+// Corrija o caminho para servir arquivos estáticos corretamente
+app.use("/public", express.static(path.join(__dirname, "../public")));
 
 app.use("/", routes);
 
-app.get("/eventos/novo", (req, res) => {
-  res.render("eventos/form", {
-    evento: null,
-    action: "/api/events",
-    method: "POST",
-    titulo: "Criar Novo Evento",
-  });
-});
-
-app.get("/eventos/editar/:id", (req, res) => {
-  res.render("eventos/form", {
-    evento: { id: req.params.id },
-    action: `/api/events/${req.params.id}`,
-    method: "PUT",
-    titulo: "Editar Evento",
-  });
-});
-
-app.get("/usuarios/novo", (req, res) => {
-  res.render("usuarios/form", {
-    usuario: null,
-    action: "/api/users",
-    method: "POST",
-    titulo: "Criar Novo Usuário",
-  });
-});
+// Remova as rotas duplicadas de renderização de formulário daqui
+// Elas já devem estar no arquivo de rotas (routes/index.js)
 
 app.listen(port, () => {
   console.log(`Servidor rodando na porta ${port}`);

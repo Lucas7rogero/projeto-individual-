@@ -1,57 +1,129 @@
 const express = require("express");
 const router = express.Router();
 const methodOverride = require("method-override");
+const SubscriptionService = require("../services/SubscriptionService");
+const UserService = require("../services/UserService");
+const EventService = require("../services/EventService");
 
-let inscricoes = [];
-let nextId = 1;
-
-// Middleware para suportar PUT/DELETE via ?_method
 router.use(methodOverride("_method"));
 
-// Página inicial: formulário de cadastro
+
 router.get("/", (req, res) => {
-  res.render("usuarios/form", { usuario: null });
+  res.redirect("/usuarios/novo");
 });
 
-// Página para novo cadastro
+
 router.get("/usuarios/novo", (req, res) => {
   res.render("usuarios/form", { usuario: null });
 });
 
-// Cadastrar nova inscrição
-router.post("/usuarios", (req, res) => {
-  const { nome, idade, evento } = req.body;
-  inscricoes.push({ id: nextId++, nome, idade, evento });
-  res.redirect("/inscricoes");
+
+router.post("/usuarios", async (req, res) => {
+  try {
+    const { nome, email, senha, titulo, descricao, local, data } = req.body;
+
+
+    let user = await UserService.getAllUsers();
+    user = user.find((u) => u.email === email);
+    if (!user) {
+      user = await UserService.createUser(nome, email, senha);
+    }
+
+
+    let eventos = await EventService.getAllEvents();
+    let evento = eventos.find(
+      (e) =>
+        e.titulo === titulo &&
+        e.data.toISOString().slice(0, 16) === data &&
+        e.local === local
+    );
+    if (!evento) {
+      evento = await EventService.createEvent(
+        titulo,
+        descricao,
+        local,
+        data,
+        user.id
+      );
+    }
+
+    await SubscriptionService.createSubscription(user.id, evento.id);
+
+    res.redirect("/inscricoes");
+  } catch (err) {
+    res.status(400).send("Erro ao cadastrar inscrição: " + err.message);
+  }
 });
 
-// Listar inscrições
-router.get("/inscricoes", (req, res) => {
+
+router.get("/inscricoes", async (req, res) => {
+  const inscricoes = await SubscriptionService.getSubscriptionsWithDetails();
   res.render("inscricoes/index", { inscricoes });
 });
 
-// Página de edição
-router.get("/usuarios/:id/edit", (req, res) => {
-  const usuario = inscricoes.find(u => u.id == req.params.id);
-  if (!usuario) return res.redirect("/inscricoes");
-  res.render("usuarios/form", { usuario });
+
+router.get("/usuarios/:id/edit", async (req, res) => {
+  const inscricao = await SubscriptionService.getSubscriptionById(
+    req.params.id
+  );
+  if (!inscricao) return res.redirect("/inscricoes");
+
+  const user = await UserService.getUserById(inscricao.user_id);
+  const event = await EventService.getEventById(inscricao.event_id);
+  res.render("usuarios/form", {
+    usuario: {
+      id: inscricao.id,
+      nome: user.nome,
+      email: user.email,
+      senha: "", // não exibe senha
+      titulo: event.titulo,
+      descricao: event.descricao,
+      local: event.local,
+      data: event.data.toISOString().slice(0, 16),
+    },
+  });
 });
 
-// Atualizar inscrição
-router.post("/usuarios/:id", (req, res) => {
-  const usuario = inscricoes.find(u => u.id == req.params.id);
-  if (usuario) {
-    usuario.nome = req.body.nome;
-    usuario.idade = req.body.idade;
-    usuario.evento = req.body.evento;
+
+router.post("/usuarios/:id", async (req, res) => {
+  try {
+    const { nome, email, senha, titulo, descricao, local, data } = req.body;
+    const inscricao = await SubscriptionService.getSubscriptionById(
+      req.params.id
+    );
+
+
+    await UserService.updateUser(
+      inscricao.user_id,
+      nome,
+      email,
+      senha || "123456"
+    );
+
+
+    await EventService.updateEvent(
+      inscricao.event_id,
+      titulo,
+      descricao,
+      local,
+      data,
+      inscricao.user_id
+    );
+
+    res.redirect("/inscricoes");
+  } catch (err) {
+    res.status(400).send("Erro ao atualizar inscrição: " + err.message);
   }
-  res.redirect("/inscricoes");
 });
 
-// Excluir inscrição
-router.delete("/usuarios/:id", (req, res) => {
-  inscricoes = inscricoes.filter(u => u.id != req.params.id);
-  res.redirect("/inscricoes");
+
+router.delete("/usuarios/:id", async (req, res) => {
+  try {
+    await SubscriptionService.deleteSubscription(req.params.id);
+    res.redirect("/inscricoes");
+  } catch (err) {
+    res.status(400).send("Erro ao excluir inscrição: " + err.message);
+  }
 });
 
 module.exports = router;
