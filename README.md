@@ -1,32 +1,36 @@
-# Plataforma de Eventos — Projeto Individual (Módulo 2, Parte I de Computação)
+# Plataforma de Eventos — Projeto Individual (Módulo 2, Parte 3 de Computação)
 
-Este é um sistema web desenvolvido com Node.js e Express.js para o gerenciamento de eventos e inscrições.
+Este é um sistema web completo desenvolvido com **Node.js**, **Express.js**, **EJS**, **PostgreSQL** e **CSS**, que permite o **gerenciamento de eventos, usuários e inscrições**.  
+O objetivo é oferecer uma **plataforma funcional** com **interface interativa**, conectada ao backend e banco de dados, simulando um sistema real de gestão de eventos (workshops, palestras, etc).
 
-O objetivo deste projeto é oferecer uma plataforma que permita a criação, visualização e inscrição em eventos. A aplicação será usada para simular um sistema real de gestão de eventos como workshops, palestras ou encontros comunitários, com foco em simplicidade, eficiência e boas práticas de desenvolvimento.
 
----
+## 📁 Estrutura de Pastas
 
-## Estrutura de Pastas
-
-```plataforma-eventos/
+```txt
+plataforma-eventos/
 ├── assets/
 ├── documentos/
 ├── node_modules/
 ├── src/
-│   └── controllers/
+│   ├── controllers/
 │   │    └── EventController.js
 │   │    └── SubscriptionController.js
 │   │    └── UserController.js
-│   └── migration/
-│   │    └── .sql
+│   ├── migration/
+│   │    └── 202505201029.sql
 │   │    └── runSQLscript.js
-│   └── models/
+│   ├── models/
 │   │    └── EventModel.js
 │   │    └── SubscriptionModel.js
 │   │    └── UserModel.js
-│   └── routes/
+│   ├── routes/
 │   │    └── index.js
-│   └── routes/
+│   └── views/              # Views EJS
+│        └── home.ejs
+│        └── events.ejs
+│        └── event-form.ejs
+│        └── subscriptions.ejs
+│        └── users.ejs
 ├── .env
 ├── .env.example
 ├── .gitignore
@@ -34,66 +38,104 @@ O objetivo deste projeto é oferecer uma plataforma que permita a criação, vis
 ├── package.json
 ├── readme.md
 ├── server.js
-├── wad.js
-
+├── wad.md
 ```
 
 ## Como executar o projeto localmente
 
-### 1. Instale as dependências
-
-```
+**1. Instale as dependências**
+bash
+Copiar
+Editar
 npm install
-```
+2. Configure as variáveis de ambiente
+Crie um arquivo .env na raiz do projeto com os dados de conexão com o banco:
 
-### 2. Configure as variáveis de ambiente
-
-Crie um arquivo .env na raiz do projeto com as seguintes informações:
-
-```
+env
+Copiar
+Editar
 DB_USER="postgres.xxkarnrbvpgcxfhhlwcx"
 DB_HOST="aws-0-us-east-2.pooler.supabase.com"
 DB_DATABASE="postgres"
 DB_PASSWORD="yGoBuSNEMLC9WWnB"
 DB_PORT="6543"
 DB_SSL="true"
-```
-
-### 3. Inicie o servidor
-
-```
+3. Execute o script de criação do banco (opcional)
+bash
+Copiar
+Editar
+node src/migration/runSQLscript.js
+4. Inicie o servidor
+bash
+Copiar
+Editar
 node server.js
-```
-
-### 4. Abra no navegador
-
+5. Acesse no navegador
+arduino
+Copiar
+Editar
 http://localhost:3000
+🌐 Rotas da API
+Usuários
+GET /api/users
 
-## Endpoints da API
+POST /api/users
 
-### Usuários
+PUT /api/users/:id
 
-- `POST /api/users` - Criar novo usuário  
-- `GET /api/users` - Listar todos os usuários  
-- `PUT /api/users/:id` - Editar usuário  
-- `DELETE /api/users/:id` - Excluir usuário  
+DELETE /api/users/:id
 
-### Eventos
+Eventos
+GET /api/events
 
-- `POST /api/events` - Criar novo evento  
-- `GET /api/events` - Listar eventos  
-- `PUT /api/events/:id` - Editar evento  
-- `DELETE /api/events/:id` - Excluir evento  
+POST /api/events
 
-### Inscrições
+PUT /api/events/:id
 
-- `POST /api/subscriptions` - Criar inscrição  
-- `GET /api/subscriptions` - Listar inscrições  
-- `PUT /api/subscriptions/:id` - Editar inscrição  
-- `DELETE /api/subscriptions/:id` - Excluir inscrição  
+DELETE /api/events/:id
 
+Inscrições
+GET /api/subscriptions
 
-## Tecnologias Utilizadas
+POST /api/subscriptions
+
+PUT /api/subscriptions/:id
+
+DELETE /api/subscriptions/:id
+
+## 💻 Views Desenvolvidas (/src/views/)
+
+- **form.ejs: Página inicial/Formulário**
+
+- **index.ejs: Lista com os usuários cadastrados**
+
+As views usam EJS e estão conectadas ao banco via controllers e rotas Express, com res.render(...).
+
+🔁 Integração com Fetch API
+A interface interativa utiliza Fetch API para chamadas AJAX:
+
+js
+Copiar
+Editar
+// Exemplo: cadastro de evento
+fetch('/api/events', {
+  method: 'POST',
+  headers: { 'Content-Type': 'application/json' },
+  body: JSON.stringify({ nome: 'Evento A', data: '2025-06-10' })
+});
+Essa abordagem permite atualizar a interface sem recarregar a página.
+
+## 🎨 Estilização (CSS)
+
+- Layout responsivo e organizado
+
+- Feedback visual em botões e formulários
+
+- Utilização de Flexbox e Grid
+
+- Cores e fontes consistentes com acessibilidade
+
+## 🧱 Tecnologias Utilizadas
 
 - Node.js
 
@@ -103,28 +145,33 @@ http://localhost:3000
 
 - PostgreSQL
 
+- JavaScript (Fetch API)
+
+- CSS
+
 - Dotenv
 
-- MVC Pattern
+- Arquitetura MVC
 
-## Modelo de Banco de Dados
+## 🗃️ Banco de Dados
 
-Entidades principais:
+**Entidades:**
 
-users — Armazena os usuários do sistema (nome, e-mail, senha)
+- users — Usuários do sistema
 
-events — Armazena os eventos (nome, descrição, local, data)
+- events — Eventos disponíveis
 
-subscriptions — Armazena as inscrições dos usuários em eventos
+- subscriptions — Inscrições em eventos
 
-### O modelo físico (código SQL) está em:
+
+**Modelo físico (SQL):**
 
 - ./src/migration/202505201029.sql
 
-### O modelo relacional (diagrama visual) está em:
+**Modelo relacional (visual):**
 
 - banco-relacional.svg
 
-# Licença
 
-Este projeto é acadêmico do Instituto de Tecnologia e Liderança (Inteli).
+## 📄 Licença
+**Este projeto é acadêmico, desenvolvido no Instituto de Tecnologia e Liderança (Inteli), como parte da disciplina de Computação (Módulo 2)**
