@@ -1,17 +1,20 @@
-# Plataforma de Eventos — Projeto Individual (Módulo 2, Parte 3 de Computação)
+# Plataforma de Eventos — Projeto Individual (Módulo 2)
 
 Este é um sistema web completo desenvolvido com **Node.js**, **Express.js**, **EJS**, **PostgreSQL** e **CSS**, que permite o **gerenciamento de eventos, usuários e inscrições**.  
 O objetivo é oferecer uma **plataforma funcional** com **interface interativa**, conectada ao backend e banco de dados, simulando um sistema real de gestão de eventos (workshops, palestras, etc).
 
-
 ## 📁 Estrutura de Pastas
 
-```txt
+```
 plataforma-eventos/
 ├── assets/
+│   ├── arquitetura.jpeg
+│   └── banco-relacional.png
 ├── documentos/
 ├── node_modules/
 ├── src/
+│   ├── config/
+│   │    └── db.js
 │   ├── controllers/
 │   │    └── EventController.js
 │   │    └── SubscriptionController.js
@@ -23,85 +26,100 @@ plataforma-eventos/
 │   │    └── EventModel.js
 │   │    └── SubscriptionModel.js
 │   │    └── UserModel.js
+│   ├── repositories/
+│   │    └── EventRepository.js
+│   │    └── SubscriptionRepository.js
+│   │    └── UserRepository.js
+│   ├── services/
+│   │    └── EventService.js
+│   │    └── SubscriptionService.js
+│   │    └── UserService.js
 │   ├── routes/
 │   │    └── index.js
-│   └── views/              # Views EJS
-│        └── home.ejs
-│        └── events.ejs
-│        └── event-form.ejs
-│        └── subscriptions.ejs
-│        └── users.ejs
+│   └── views/  
+│   │     └── inscricoes
+│   │     │    └── index.ejs
+│   │     └── usuarios
+│   │          └── index.ejs
+│   └── server.js
 ├── .env
 ├── .env.example
 ├── .gitignore
+├── index.html
 ├── package-lock.json
 ├── package.json
 ├── readme.md
-├── server.js
-├── wad.md
+└── wad.md
 ```
 
 ## Como executar o projeto localmente
 
 **1. Instale as dependências**
-bash
-Copiar
-Editar
+
 npm install
-2. Configure as variáveis de ambiente
+
+- bcrypt
+- body-parser
+- cors
+- dotenv
+- ejs
+- express
+- joi
+- method-override
+- pg
+
+**2. Configure as variáveis de ambiente**
+
 Crie um arquivo .env na raiz do projeto com os dados de conexão com o banco:
 
-env
-Copiar
-Editar
+```
 DB_USER="postgres.xxkarnrbvpgcxfhhlwcx"
 DB_HOST="aws-0-us-east-2.pooler.supabase.com"
 DB_DATABASE="postgres"
 DB_PASSWORD="yGoBuSNEMLC9WWnB"
 DB_PORT="6543"
 DB_SSL="true"
-3. Execute o script de criação do banco (opcional)
-bash
-Copiar
-Editar
-node src/migration/runSQLscript.js
-4. Inicie o servidor
-bash
-Copiar
-Editar
-node server.js
-5. Acesse no navegador
-arduino
-Copiar
-Editar
-http://localhost:3000
-🌐 Rotas da API
-Usuários
-GET /api/users
+```
 
-POST /api/users
+**3. Inicie o servidor**
 
-PUT /api/users/:id
+- node server.js
 
-DELETE /api/users/:id
+**4. Acesse no navegador**
 
-Eventos
-GET /api/events
+- http://localhost:3000
 
-POST /api/events
+## 🌐 Rotas da API
 
-PUT /api/events/:id
+**Usuários**
 
-DELETE /api/events/:id
+- GET /api/users
 
-Inscrições
-GET /api/subscriptions
+- POST /api/users
 
-POST /api/subscriptions
+- PUT /api/users/:id
 
-PUT /api/subscriptions/:id
+- DELETE /api/users/:id
 
-DELETE /api/subscriptions/:id
+**Eventos**
+
+- GET /api/events
+
+- POST /api/events
+
+- PUT /api/events/:id
+
+- DELETE /api/events/:id
+
+**Inscrições**
+
+- GET /api/subscriptions
+
+- POST /api/subscriptions
+
+- PUT /api/subscriptions/:id
+
+- DELETE /api/subscriptions/:id
 
 ## 💻 Views Desenvolvidas (/src/views/)
 
@@ -111,19 +129,6 @@ DELETE /api/subscriptions/:id
 
 As views usam EJS e estão conectadas ao banco via controllers e rotas Express, com res.render(...).
 
-🔁 Integração com Fetch API
-A interface interativa utiliza Fetch API para chamadas AJAX:
-
-js
-Copiar
-Editar
-// Exemplo: cadastro de evento
-fetch('/api/events', {
-  method: 'POST',
-  headers: { 'Content-Type': 'application/json' },
-  body: JSON.stringify({ nome: 'Evento A', data: '2025-06-10' })
-});
-Essa abordagem permite atualizar a interface sem recarregar a página.
 
 ## 🎨 Estilização (CSS)
 
