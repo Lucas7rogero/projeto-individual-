@@ -1,103 +1,51 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title><%= usuario ? 'Editar Inscrição' : 'Nova Inscrição' %></title>
-    <link rel="stylesheet" href="/public/css/style.css" />
-  </head>
-  <body>
-    <main class="main-content">
-      <div class="container" style="max-width: 400px; margin: 2rem auto">
-        <h1><%= usuario ? 'Editar Inscrição' : 'Nova Inscrição' %></h1>
-        <form
-          action="<%= usuario ? '/usuarios/' + usuario.id : '/usuarios' %>"
-          method="POST"
-          class="form"
-        >
-          <div class="form-group">
-            <label for="nome">Nome do Usuário *</label>
-            <input
-              type="text"
-              id="nome"
-              name="nome"
-              required
-              maxlength="255"
-              value="<%= usuario ? usuario.nome : '' %>"
-            />
-          </div>
-          <div class="form-group">
-            <label for="email">Email do Usuário *</label>
-            <input
-              type="email"
-              id="email"
-              name="email"
-              required
-              maxlength="255"
-              value="<%= usuario ? usuario.email : '' %>"
-            />
-          </div>
-          <div class="form-group">
-            <label for="senha">Senha do Usuário *</label>
-            <input type="password" id="senha" name="senha" <%= usuario ? '' :
-            'required' %> minlength="6" />
-          </div>
-          <div class="form-group">
-            <label for="titulo">Nome do Evento *</label>
-            <input
-              type="text"
-              id="titulo"
-              name="titulo"
-              required
-              maxlength="255"
-              value="<%= usuario ? usuario.titulo : '' %>"
-            />
-          </div>
-          <div class="form-group">
-            <label for="descricao">Descrição do Evento *</label>
-            <input
-              type="text"
-              id="descricao"
-              name="descricao"
-              required
-              maxlength="255"
-              value="<%= usuario ? usuario.descricao : '' %>"
-            />
-          </div>
-          <div class="form-group">
-            <label for="local">Local do Evento *</label>
-            <input
-              type="text"
-              id="local"
-              name="local"
-              required
-              maxlength="255"
-              value="<%= usuario ? usuario.local : '' %>"
-            />
-          </div>
-          <div class="form-group">
-            <label for="data">Data do Evento *</label>
-            <input
-              type="datetime-local"
-              id="data"
-              name="data"
-              required
-              value="<%= usuario ? usuario.data : '' %>"
-            />
-          </div>
-          <div class="form-actions">
-            <button type="submit" class="btn btn-primary">
-              <%= usuario ? 'Salvar Alterações' : 'Cadastrar' %>
-            </button>
-            <a
-              href="/inscricoes"
-              class="btn btn-secondary"
-              style="margin-left: 10px"
-              >Voltar</a
-            >
-          </div>
-        </form>
-      </div>
-    </main>
-  </body>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title><%= usuario ? 'Editar Inscrição' : 'Nova Inscrição' %></title>
+  <link rel="stylesheet" href="/public/css/style.css" />
+</head>
+<body>
+  <main class="main-content">
+    <div class="container" style="max-width: 400px; margin: 2rem auto;">
+      <h1><%= usuario ? 'Editar Inscrição' : 'Nova Inscrição' %></h1>
+      <form 
+        action="<%= usuario ? '/usuarios/' + usuario.id : '/usuarios' %>" 
+        method="POST" 
+        class="form"
+      >
+        <div class="form-group">
+          <label for="nome">Nome do Usuário *</label>
+          <input type="text" id="nome" name="nome" required maxlength="255" value="<%= usuario ? usuario.nome : '' %>" />
+        </div>
+        <div class="form-group">
+          <label for="email">Email do Usuário *</label>
+          <input type="email" id="email" name="email" required maxlength="255" value="<%= usuario ? usuario.email : '' %>" />
+        </div>
+        <div class="form-group">
+          <label for="senha">Senha do Usuário *</label>
+          <input type="password" id="senha" name="senha" <%= usuario ? '' : 'required' %> minlength="6" />
+        </div>
+        <div class="form-group">
+          <label for="evento">Evento *</label>
+          <select id="evento" name="evento" required>
+            <option value="">Selecione um evento</option>
+            <option value="ROCK" <%= usuario && usuario.evento === 'ROCK' ? 'selected' : '' %>>ROCK</option>
+            <option value="SAMBA" <%= usuario && usuario.evento === 'SAMBA' ? 'selected' : '' %>>SAMBA</option>
+            <option value="FUNK" <%= usuario && usuario.evento === 'FUNK' ? 'selected' : '' %>>FUNK</option>
+            <option value="PAGODE" <%= usuario && usuario.evento === 'PAGODE' ? 'selected' : '' %>>PAGODE</option>
+            <option value="SERTANEJO" <%= usuario && usuario.evento === 'SERTANEJO' ? 'selected' : '' %>>SERTANEJO</option>
+          </select>
+        </div>
+        <div class="form-actions">
+          <button type="submit" class="btn btn-primary">
+            <%= usuario ? 'Salvar Alterações' : 'Cadastrar' %>
+          </button>
+          <a href="/inscricoes" class="btn btn-secondary" style="margin-left: 10px;">Voltar</a>
+        </div>
+      </form>
+    </div>
+  </main>
+</body>
 </html>

@@ -4,29 +4,56 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="/public/css/style.css" />
+    <title>Inscrições Realizadas</title>
   </head>
   <body>
     <main class="main-content">
       <div class="container" style="max-width: 600px; margin: 2rem auto">
         <h1>Inscrições Realizadas</h1>
-        <a href="/usuarios/novo" class="btn btn-primary" style="margin-bottom: 1rem;">Cadastrar Novo Usuário</a>
+        <a
+          href="/usuarios/novo"
+          class="btn btn-primary"
+          style="margin-bottom: 1rem"
+          >Cadastrar Nova Inscrição</a
+        >
         <% if (Array.isArray(inscricoes) && inscricoes.length > 0) { %>
         <table class="table">
           <tr>
             <th>Nome</th>
-            <th>Idade</th>
+            <th>Email</th>
             <th>Evento</th>
+            <th>Data</th>
+            <th>Local</th>
             <th>Ações</th>
           </tr>
-          <% inscricoes.forEach(function(usuario) { %>
+          <% inscricoes.forEach(function(inscricao) { %>
           <tr>
-            <td><%= usuario.nome %></td>
-            <td><%= usuario.idade %></td>
-            <td><%= usuario.evento %></td>
+            <td><%= inscricao.user_nome %></td>
+            <td><%= inscricao.user_email %></td>
+            <td><%= inscricao.event_titulo %></td>
             <td>
-              <a href="/usuarios/<%= usuario.id %>/edit" class="btn btn-secondary">Editar</a>
-              <form action="/usuarios/<%= usuario.id %>?_method=DELETE" method="POST" style="display:inline;">
-                <button type="submit" class="btn btn-danger" onclick="return confirm('Tem certeza que deseja apagar esta inscrição?');">Excluir</button>
+              <%= inscricao.event_data ? new
+              Date(inscricao.event_data).toLocaleString('pt-BR') : '' %>
+            </td>
+            <td><%= inscricao.event_local %></td>
+            <td>
+              <a
+                href="/usuarios/<%= inscricao.id %>/edit"
+                class="btn btn-secondary"
+                >Editar</a
+              >
+              <form
+                action="/usuarios/<%= inscricao.id %>?_method=DELETE"
+                method="POST"
+                style="display: inline"
+              >
+                <button
+                  type="submit"
+                  class="btn btn-danger"
+                  onclick="return confirm('Tem certeza que deseja apagar esta inscrição?');"
+                >
+                  Excluir
+                </button>
               </form>
             </td>
           </tr>
