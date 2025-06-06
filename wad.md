@@ -18,67 +18,26 @@ O sistema segue o padrão arquitetural Model-View-Controller (MVC), proporcionan
 4. **Models → Banco de Dados**: Os models executam queries SQL no PostgreSQL
 5. **Resposta**: Os dados retornam como JSON response ao cliente
 
-### Componentes da Arquitetura
+## **Interface**
 
-#### Routes (Roteamento)
+### **- Página Principal / Formulário**
 
-- **Arquivo**: `src/routes/index.js`
-- **Responsabilidade**: Definir endpoints da API e mapear para controllers
-- **Rotas principais**:
-- `POST/GET/PUT/DELETE /api/users`
-- `POST/GET/PUT/DELETE /api/events`
-- `POST/GET/PUT/DELETE /api/subscriptions`
+Tela de início do sistema com formulário completo para cadastrar uma nova inscrição no sistema. Os campos obrigatórios incluem: Nome do Usuário, Email, Senha e Tipo de Evento. Abaixo do formulário, há dois botões: Cadastrar, que envia os dados, e Voltar, que retorna para a tela de listagem.
 
-#### Controllers (Controladores)
+![pagina inicial](assets/formulario.png)
 
-- **Localização**: `src/controllers/`
-- **Responsabilidade**: Processar requisições, executar lógica de negócio e retornar respostas
+### **- Formulário**
 
-**UserController.js**
+Formulário parcial de nova inscrição, onde o usuário deve preencher o nome, email e escolher o tipo de evento em uma lista suspensa. A lista inclui opções como ROCK, SAMBA, FUNK, etc. Esta interface antecipa a seleção antes da submissão completa do cadastro.
 
-- `criarUser()` - Criar novo usuário
-- `listarUsers()` - Listar todos os usuários
-- `editarUser()` - Editar usuário existente
-- `excluirUser()` - Excluir usuário
+![pagina inicial](assets/selecao.png)
 
-**EventController.js**
+### **- Tela de listagem de inscrições**
 
-- `criarEvent()` - Criar novo evento
-- `listarEvents()` - Listar todos os eventos
-- `editarEvent()` - Editar evento existente
-- `excluirEvent()` - Excluir evento
+Página principal que exibe todas as inscrições já realizadas. Contém uma tabela com as colunas: Nome, Email, Evento, Data, Local e Ações. Cada linha da tabela apresenta os dados de um inscrito e permite editar ou excluir a inscrição.
+Também possui um botão destacado para "Cadastrar Nova Inscrição", redirecionando para o formulário de cadastro.
 
-**SubscriptionController.js**
-
-- `criarSubscription()` - Criar nova inscrição
-- `listarSubscriptions()` - Listar todas as inscrições
-- `editarSubscription()` - Editar inscrição existente
-- `excluirSubscription()` - Excluir inscrição
-
-#### Models (Modelos)
-
-- **Localização**: `src/models/`
-- **Responsabilidade**: Interagir com o banco de dados e definir estrutura dos dados
-
-**UserModel.js**
-
-- Campos: `id`, `nome`, `email`, `senha`
-- Operações CRUD para tabela `users`
-
-**EventModel.js**
-
-- Campos: `id`, `titulo`, `descricao`, `local`, `data`, `user_id`
-- Operações CRUD para tabela `events`
-
-**SubscriptionModel.js**
-
-- Campos: `id`, `user_id`, `event_id`
-- Operações CRUD para tabela `subscriptions`
-
-#### Configuração
-
-- **db.js**: Configuração da conexão com PostgreSQL
-- **.env**: Variáveis de ambiente (credenciais do banco)
+![pagina inicial](assets/inscricoes.png)
 
 ## Diagrama do Banco de Dados
 
