@@ -133,7 +133,7 @@
           >Cadastrar Nova Inscrição</a
         >
         <% if (Array.isArray(inscricoes) && inscricoes.length > 0) { %>
-        <table class="table">
+        <table class="table" id="tabela-inscricoes">
           <tr>
             <th>Nome</th>
             <th>Email</th>
@@ -143,7 +143,7 @@
             <th>Ações</th>
           </tr>
           <% inscricoes.forEach(function(inscricao) { %>
-          <tr>
+          <tr data-id="<%= inscricao.id %>">
             <td><%= inscricao.user_nome %></td>
             <td><%= inscricao.user_email %></td>
             <td><%= inscricao.event_titulo %></td>
@@ -158,19 +158,13 @@
                 class="btn btn-secondary"
                 >Editar</a
               >
-              <form
-                action="/usuarios/<%= inscricao.id %>?_method=DELETE"
-                method="POST"
-                style="display: inline"
+              <button
+                type="button"
+                class="btn btn-danger"
+                onclick="excluirInscricao('<%= inscricao.id %>', this)"
               >
-                <button
-                  type="submit"
-                  class="btn btn-danger"
-                  onclick="return confirm('Tem certeza que deseja apagar esta inscrição?');"
-                >
-                  Excluir
-                </button>
-              </form>
+                Excluir
+              </button>
             </td>
           </tr>
           <% }) %>
@@ -180,5 +174,25 @@
         <% } %>
       </div>
     </main>
+    <script>
+      async function excluirInscricao(id, btn) {
+        if (!confirm("Tem certeza que deseja apagar esta inscrição?")) return;
+        try {
+          const res = await fetch(`/api/subscriptions/${id}`, {
+            method: "DELETE",
+          });
+          if (res.ok) {
+            // Remove a linha da tabela sem recarregar a página
+            const row = btn.closest("tr");
+            row.parentNode.removeChild(row);
+          } else {
+            const data = await res.json();
+            alert(data.error || "Erro ao excluir inscrição");
+          }
+        } catch (err) {
+          alert("Erro ao excluir inscrição");
+        }
+      }
+    </script>
   </body>
 </html>

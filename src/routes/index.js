@@ -25,13 +25,13 @@ router.post("/usuarios", async (req, res) => {
     }
 
     let user = await UserService.getAllUsers();
-    user = user.find(u => u.email === email);
+    user = user.find((u) => u.email === email);
     if (!user) {
       user = await UserService.createUser(nome, email, senha);
     }
 
     let eventos = await EventService.getAllEvents();
-    let eventoObj = eventos.find(e => e.titulo === evento);
+    let eventoObj = eventos.find((e) => e.titulo === evento);
     if (!eventoObj) {
       return res.status(400).send("Evento não encontrado.");
     }
@@ -50,7 +50,9 @@ router.get("/inscricoes", async (req, res) => {
 });
 
 router.get("/usuarios/:id/edit", async (req, res) => {
-  const inscricao = await SubscriptionService.getSubscriptionById(req.params.id);
+  const inscricao = await SubscriptionService.getSubscriptionById(
+    req.params.id
+  );
   if (!inscricao) return res.redirect("/inscricoes");
   const user = await UserService.getUserById(inscricao.user_id);
   const event = await EventService.getEventById(inscricao.event_id);
@@ -60,15 +62,17 @@ router.get("/usuarios/:id/edit", async (req, res) => {
       nome: user.nome,
       email: user.email,
       senha: "",
-      evento: event.titulo
-    }
+      evento: event.titulo,
+    },
   });
 });
 
 router.post("/usuarios/:id", async (req, res) => {
   try {
     const { nome, email, senha, evento } = req.body;
-    const inscricao = await SubscriptionService.getSubscriptionById(req.params.id);
+    const inscricao = await SubscriptionService.getSubscriptionById(
+      req.params.id
+    );
 
     await UserService.updateUser(
       inscricao.user_id,
@@ -78,7 +82,7 @@ router.post("/usuarios/:id", async (req, res) => {
     );
 
     let eventos = await EventService.getAllEvents();
-    let eventoObj = eventos.find(e => e.titulo === evento);
+    let eventoObj = eventos.find((e) => e.titulo === evento);
     if (!eventoObj) {
       return res.status(400).send("Evento não encontrado.");
     }
@@ -101,6 +105,16 @@ router.delete("/usuarios/:id", async (req, res) => {
     res.redirect("/inscricoes");
   } catch (err) {
     res.status(400).send("Erro ao excluir inscrição: " + err.message);
+  }
+});
+
+router.delete("/api/subscriptions/:id", async (req, res) => {
+  try {
+    await SubscriptionService.deleteSubscription(req.params.id);
+    res.status(200).json({ message: "Inscrição excluída com sucesso" });
+  } catch (err) {
+    console.error("Erro ao excluir inscrição:", err.message);
+    res.status(400).json({ error: err.message });
   }
 });
 
