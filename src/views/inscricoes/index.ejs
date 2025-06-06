@@ -182,7 +182,6 @@
             method: "DELETE",
           });
           if (res.ok) {
-            // Remove a linha da tabela sem recarregar a página
             const row = btn.closest("tr");
             row.parentNode.removeChild(row);
           } else {
