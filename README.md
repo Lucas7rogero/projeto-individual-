@@ -83,7 +83,7 @@ DB_SSL="true"
 
 **3. Inicie o servidor**
 
-- node server.js
+- node src/server.js
 
 **4. Acesse no navegador**
 
