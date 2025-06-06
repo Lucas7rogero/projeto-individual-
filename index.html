@@ -2,222 +2,182 @@
 <html lang="pt-BR">
   <head>
     <meta charset="UTF-8" />
+    <title>Web Application Document (WAD)</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Documentação WAD - Plataforma de Eventos</title>
     <style>
       body {
-        font-family: Arial, sans-serif;
+        background: #f7f9fb;
+        font-family: "Segoe UI", Arial, sans-serif;
+        color: #222;
         margin: 0;
-        padding: 2rem;
-        background-color: #f5f5f5;
-        color: #333;
+        padding: 0;
       }
-
+      .container {
+        max-width: 900px;
+        margin: 2rem auto;
+        background: #fff;
+        border-radius: 12px;
+        box-shadow: 0 2px 16px rgba(44, 62, 80, 0.13);
+        padding: 2.5rem 2rem;
+      }
       h1,
       h2,
       h3 {
-        color: #2c3e50;
+        color: #2d6cdf;
+        font-weight: 700;
+        margin-top: 2rem;
       }
-
-      img {
-        max-width: 100%;
-        height: auto;
-        margin: 1rem 0;
-        border: 1px solid #ccc;
-      }
-
-      code {
-        background-color: #eaeaea;
-        padding: 2px 4px;
-        border-radius: 3px;
-        font-family: monospace;
-      }
-
-      ul {
-        list-style-type: disc;
-        padding-left: 20px;
-      }
-
-      pre {
-        background-color: #f0f0f0;
-        padding: 1rem;
-        overflow-x: auto;
-      }
-
-      section {
+      h1 {
+        font-size: 2.2rem;
+        text-align: center;
         margin-bottom: 2rem;
       }
-
-      .highlight {
-        background-color: #e1f5fe;
-        padding: 1rem;
-        border-left: 4px solid #039be5;
+      img {
+        max-width: 100%;
+        border-radius: 8px;
         margin: 1rem 0;
+        box-shadow: 0 2px 8px rgba(44, 62, 80, 0.07);
+      }
+      ul {
+        margin-left: 1.5rem;
+      }
+      .section {
+        margin-bottom: 2.5rem;
+      }
+      .table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 1rem;
+        background: #fff;
+        border-radius: 8px;
+        overflow: hidden;
+        box-shadow: 0 2px 8px rgba(44, 62, 80, 0.07);
+      }
+      .table th,
+      .table td {
+        padding: 0.8rem 0.7rem;
+        text-align: left;
+      }
+      .table th {
+        background: #f1f5f9;
+        color: #2d6cdf;
+        font-weight: 600;
+        border-bottom: 2px solid #e5e7eb;
+      }
+      .table tr:nth-child(even) {
+        background: #f9fafb;
+      }
+      .table tr:hover {
+        background: #e8f0fe;
+      }
+      @media (max-width: 700px) {
+        .container {
+          padding: 1rem;
+        }
+        h1 {
+          font-size: 1.3rem;
+        }
       }
     </style>
   </head>
   <body>
-    <h1>Web Application Document (WAD)</h1>
+    <div class="container">
+      <h1>Web Application Document (WAD)</h1>
 
-    <section>
-      <h2>Introdução</h2>
-      <p>
-        Este sistema é uma plataforma para criação e inscrição em eventos, com
-        autenticação de usuários.
-      </p>
-    </section>
-
-    <section>
-      <h2>Arquitetura MVC</h2>
-      <p>
-        O sistema segue o padrão arquitetural Model-View-Controller (MVC),
-        proporcionando uma separação clara de responsabilidades e facilitando a
-        manutenção e escalabilidade da aplicação.
-      </p>
-      <img src="assets/arquitetura.jpeg" alt="Arquitetura MVC" />
-
-      <h3>Fluxo de Dados</h3>
-      <ol>
-        <li>
-          <strong>Cliente → Servidor</strong>: O usuário faz requisições HTTP
-          através do browser
-        </li>
-        <li>
-          <strong>Routes → Controllers</strong>: O sistema de roteamento
-          direciona as requisições para os controllers apropriados
-        </li>
-        <li>
-          <strong>Controllers → Models</strong>: Os controllers executam a
-          lógica de negócio e chamam os models
-        </li>
-        <li>
-          <strong>Models → Banco de Dados</strong>: Os models executam queries
-          SQL no PostgreSQL
-        </li>
-        <li>
-          <strong>Resposta</strong>: Os dados retornam como JSON response ao
-          cliente
-        </li>
-      </ol>
-    </section>
-
-    <section>
-      <h3>Componentes da Arquitetura</h3>
-
-      <h4>Routes (Roteamento)</h4>
-      <p><strong>Arquivo:</strong> <code>src/routes/index.js</code></p>
-      <p>
-        <strong>Responsabilidade:</strong> Definir endpoints da API e mapear
-        para controllers
-      </p>
-      <p><strong>Rotas principais:</strong></p>
-      <ul>
-        <li><code>POST/GET/PUT/DELETE /api/users</code></li>
-        <li><code>POST/GET/PUT/DELETE /api/events</code></li>
-        <li><code>POST/GET/PUT/DELETE /api/subscriptions</code></li>
-      </ul>
-
-      <h4>Controllers (Controladores)</h4>
-      <p><strong>Localização:</strong> <code>src/controllers/</code></p>
-      <p>
-        <strong>Responsabilidade:</strong> Processar requisições, executar
-        lógica de negócio e retornar respostas
-      </p>
-
-      <div class="highlight">
-        <strong>UserController.js</strong>
-        <ul>
-          <li><code>criarUser()</code> - Criar novo usuário</li>
-          <li><code>listarUsers()</code> - Listar todos os usuários</li>
-          <li><code>editarUser()</code> - Editar usuário existente</li>
-          <li><code>excluirUser()</code> - Excluir usuário</li>
-        </ul>
-
-        <strong>EventController.js</strong>
-        <ul>
-          <li><code>criarEvent()</code> - Criar novo evento</li>
-          <li><code>listarEvents()</code> - Listar todos os eventos</li>
-          <li><code>editarEvent()</code> - Editar evento existente</li>
-          <li><code>excluirEvent()</code> - Excluir evento</li>
-        </ul>
-
-        <strong>SubscriptionController.js</strong>
-        <ul>
-          <li><code>criarSubscription()</code> - Criar nova inscrição</li>
-          <li>
-            <code>listarSubscriptions()</code> - Listar todas as inscrições
-          </li>
-          <li>
-            <code>editarSubscription()</code> - Editar inscrição existente
-          </li>
-          <li><code>excluirSubscription()</code> - Excluir inscrição</li>
-        </ul>
+      <div class="section">
+        <h2>Introdução</h2>
+        <p>
+          Este sistema é uma plataforma para criação e inscrição em eventos, com
+          autenticação de usuários.
+        </p>
       </div>
 
-      <h4>Models (Modelos)</h4>
-      <p><strong>Localização:</strong> <code>src/models/</code></p>
-      <p>
-        <strong>Responsabilidade:</strong> Interagir com o banco de dados e
-        definir estrutura dos dados
-      </p>
-
-      <div class="highlight">
-        <strong>UserModel.js</strong>
-        <ul>
-          <li>
-            Campos: <code>id</code>, <code>nome</code>, <code>email</code>,
-            <code>senha</code>
-          </li>
-          <li>Operações CRUD para tabela <code>users</code></li>
-        </ul>
-
-        <strong>EventModel.js</strong>
-        <ul>
-          <li>
-            Campos: <code>id</code>, <code>titulo</code>,
-            <code>descricao</code>, <code>local</code>, <code>data</code>,
-            <code>user_id</code>
-          </li>
-          <li>Operações CRUD para tabela <code>events</code></li>
-        </ul>
-
-        <strong>SubscriptionModel.js</strong>
-        <ul>
-          <li>
-            Campos: <code>id</code>, <code>user_id</code>, <code>event_id</code>
-          </li>
-          <li>Operações CRUD para tabela <code>subscriptions</code></li>
-        </ul>
+      <div class="section">
+        <h2>Arquitetura MVC</h2>
+        <p>
+          O sistema segue o padrão arquitetural Model-View-Controller (MVC),
+          proporcionando uma separação clara de responsabilidades e facilitando
+          a manutenção e escalabilidade da aplicação.
+        </p>
+        <img src="assets/arquitetura.jpeg" alt="Arquitetura MVC" />
       </div>
 
-      <h4>Configuração</h4>
-      <ul>
-        <li><code>db.js</code>: Configuração da conexão com PostgreSQL</li>
-        <li><code>.env</code>: Variáveis de ambiente (credenciais do banco)</li>
-      </ul>
-    </section>
+      <div class="section">
+        <h3>Fluxo de Dados</h3>
+        <ol>
+          <li>
+            <strong>Cliente → Servidor:</strong> O usuário faz requisições HTTP
+            através do browser
+          </li>
+          <li>
+            <strong>Routes → Controllers:</strong> O sistema de roteamento
+            direciona as requisições para os controllers apropriados
+          </li>
+          <li>
+            <strong>Controllers → Models:</strong> Os controllers executam a
+            lógica de negócio e chamam os models
+          </li>
+          <li>
+            <strong>Models → Banco de Dados:</strong> Os models executam queries
+            SQL no PostgreSQL
+          </li>
+          <li>
+            <strong>Resposta:</strong> Os dados retornam como JSON response ao
+            cliente
+          </li>
+        </ol>
+      </div>
 
-    <section>
-      <h2>Diagrama do Banco de Dados</h2>
-      <img
-        src="assets/banco-relacional.png"
-        alt="Modelo do banco de dados relacional"
-      />
-    </section>
+      <div class="section">
+        <h2>Interface</h2>
 
-    <section>
-      <h2>Tecnologias Utilizadas</h2>
-      <ul>
-        <li><strong>Backend:</strong> Node.js + Express.js</li>
-        <li><strong>Banco de Dados:</strong> PostgreSQL (Supabase)</li>
-        <li>
-          <strong>Padrão Arquitetural:</strong> MVC (Model-View-Controller)
-        </li>
-        <li>
-          <strong>Outras dependências:</strong> <code>pg</code>,
-          <code>dotenv</code>, <code>cors</code>
-        </li>
-      </ul>
-    </section>
+        <h3>Página Principal / Formulário</h3>
+        <p>
+          Tela de início do sistema com formulário completo para cadastrar uma
+          nova inscrição no sistema. Os campos obrigatórios incluem: Nome do
+          Usuário, Email, Senha e Tipo de Evento. Abaixo do formulário, há dois
+          botões: Cadastrar, que envia os dados, e Voltar, que retorna para a
+          tela de listagem.
+        </p>
+        <img src="assets/formulario.png" alt="Página inicial - Formulário" />
+
+        <h3>Formulário</h3>
+        <p>
+          Formulário parcial de nova inscrição, onde o usuário deve preencher o
+          nome, email e escolher o tipo de evento em uma lista suspensa. A lista
+          inclui opções como ROCK, SAMBA, FUNK, etc. Esta interface antecipa a
+          seleção antes da submissão completa do cadastro.
+        </p>
+        <img src="assets/selecao.png" alt="Formulário - Seleção de Evento" />
+
+        <h3>Tela de listagem de inscrições</h3>
+        <p>
+          Página principal que exibe todas as inscrições já realizadas. Contém
+          uma tabela com as colunas: Nome, Email, Evento, Data, Local e Ações.
+          Cada linha da tabela apresenta os dados de um inscrito e permite
+          editar ou excluir a inscrição. Também possui um botão destacado para
+          "Cadastrar Nova Inscrição", redirecionando para o formulário de
+          cadastro.
+        </p>
+        <img src="assets/inscricoes.png" alt="Listagem de Inscrições" />
+      </div>
+
+      <div class="section">
+        <h2>Diagrama do Banco de Dados</h2>
+        <img src="assets/banco-relacional.png" alt="Modelo do Banco de Dados" />
+      </div>
+
+      <div class="section">
+        <h2>Tecnologias Utilizadas</h2>
+        <ul>
+          <li><strong>Backend:</strong> Node.js + Express.js</li>
+          <li><strong>Banco de Dados:</strong> PostgreSQL (Supabase)</li>
+          <li>
+            <strong>Padrão Arquitetural:</strong> MVC (Model-View-Controller)
+          </li>
+          <li><strong>Outras dependências:</strong> pg, dotenv, cors</li>
+        </ul>
+      </div>
+    </div>
   </body>
 </html>
