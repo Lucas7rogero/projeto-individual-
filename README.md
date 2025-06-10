@@ -36,7 +36,7 @@ plataforma-eventos/
 │   │    └── UserService.js
 │   ├── routes/
 │   │    └── index.js
-│   └── views/  
+│   └── views/
 │   │     └── inscricoes
 │   │     │    └── index.ejs
 │   │     └── usuarios
@@ -129,7 +129,6 @@ DB_SSL="true"
 
 As views usam EJS e estão conectadas ao banco via controllers e rotas Express, com res.render(...).
 
-
 ## 🎨 Estilização (CSS)
 
 - Layout responsivo e organizado
@@ -168,15 +167,32 @@ As views usam EJS e estão conectadas ao banco via controllers e rotas Express, 
 
 - subscriptions — Inscrições em eventos
 
-
 **Modelo físico (SQL):**
 
 - ./src/migration/202505201029.sql
 
 **Modelo relacional (visual):**
 
-- banco-relacional.svg
+assets/banco-relacional.png
 
+## 🖼️**Interface**
+
+### **- Página Principal / Formulário**
+
+Tela de início do sistema com formulário completo para cadastrar uma nova inscrição no sistema. Os campos obrigatórios incluem: Nome do Usuário, Email, Senha e Tipo de Evento. Abaixo do formulário, há dois botões: Cadastrar, que envia os dados, e Voltar, que retorna para a tela de listagem.
+
+![pagina inicial](assets/formulario.png)
+
+### **- Formulário**
+
+Formulário parcial de nova inscrição, onde o usuário deve preencher o nome, email e escolher o tipo de evento em uma lista suspensa. A lista inclui opções como ROCK, SAMBA, FUNK, etc. Esta interface antecipa a seleção antes da submissão completa do cadastro.
+
+![pagina inicial](assets/selecao.png)
+
+## **🎥 Vídeo de Demonstração**
+
+[Clique aqui para assistir ao vídeo de demonstração](https://drive.google.com/file/d/1yo3gLndQphmrcAlHZjg9uLDdoRJ76pNz/view?usp=sharing)
 
 ## 📄 Licença
+
 **Este projeto é acadêmico, desenvolvido no Instituto de Tecnologia e Liderança (Inteli), como parte da disciplina de Computação (Módulo 2)**
