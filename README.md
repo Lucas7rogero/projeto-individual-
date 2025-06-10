@@ -73,11 +73,11 @@ npm install
 Crie um arquivo .env na raiz do projeto com os dados de conexão com o banco:
 
 ```
-DB_USER="postgres.xxkarnrbvpgcxfhhlwcx"
+DB_USER="postgres.mjukrkomnakjdyiabdqr"
 DB_HOST="aws-0-us-east-2.pooler.supabase.com"
 DB_DATABASE="postgres"
-DB_PASSWORD="yGoBuSNEMLC9WWnB"
-DB_PORT="6543"
+DB_PASSWORD="QEVGqz5U0JxKTfOG"
+DB_PORT="5432"
 DB_SSL="true"
 ```
 
