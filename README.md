@@ -189,6 +189,13 @@ Formulário parcial de nova inscrição, onde o usuário deve preencher o nome, 
 
 ![pagina inicial](assets/selecao.png)
 
+### **- Tela de listagem de inscrições**
+
+Página principal que exibe todas as inscrições já realizadas. Contém uma tabela com as colunas: Nome, Email, Evento, Data, Local e Ações. Cada linha da tabela apresenta os dados de um inscrito e permite editar ou excluir a inscrição.
+Também possui um botão destacado para "Cadastrar Nova Inscrição", redirecionando para o formulário de cadastro.
+
+![pagina inicial](assets/inscricoes.png)
+
 ## **🎥 Vídeo de Demonstração**
 
 [Clique aqui para assistir ao vídeo de demonstração](https://drive.google.com/file/d/1yo3gLndQphmrcAlHZjg9uLDdoRJ76pNz/view?usp=sharing)
