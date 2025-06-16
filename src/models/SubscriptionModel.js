@@ -1,4 +1,14 @@
-const pool = require('../config/db');
+const pool = require("../config/db");
+const Joi = require("joi");
+
+const subscriptionSchema = Joi.object({
+  user_id: Joi.number().integer().required(),
+  event_id: Joi.number().integer().required(),
+});
+
+exports.validateSubscription = (subscription) => {
+  return subscriptionSchema.validate(subscription);
+};
 
 exports.criarSubscription = async (user_id, event_id) => {
   const query = `
@@ -10,7 +20,7 @@ exports.criarSubscription = async (user_id, event_id) => {
 };
 
 exports.listarSubscriptions = async () => {
-  const query = 'SELECT * FROM subscriptions ORDER BY id';
+  const query = "SELECT * FROM subscriptions ORDER BY id";
   const result = await pool.query(query);
   return result.rows;
 };
@@ -27,8 +37,9 @@ exports.editarSubscription = async (id, user_id, event_id) => {
 };
 
 exports.excluirSubscription = async (id) => {
-  const query = 'DELETE FROM subscriptions WHERE id = $1 RETURNING *';
+  const query = "DELETE FROM subscriptions WHERE id = $1 RETURNING *";
   const values = [id];
   const result = await pool.query(query, values);
   return result.rows[0];
 };
+

@@ -1,26 +1,19 @@
-const UserRepository = require('../repositories/UserRepository');
+const UserRepository = require("../repositories/UserRepository");
+const UserModel = require("../models/UserModel");
 
 class UserService {
-  async createUser(nome, email, senha) {
-
-    if (!nome || !email || !senha) {
-      throw new Error('Nome, email e senha são obrigatórios');
+  async createUser(userData) {
+    const { error } = UserModel.validateUser(userData);
+    if (error) {
+      throw new Error(error.details[0].message);
     }
 
-    if (!this.isValidEmail(email)) {
-      throw new Error('Email inválido');
-    }
-
-    if (senha.length < 6) {
-      throw new Error('Senha deve ter pelo menos 6 caracteres');
-    }
-
+    const { nome, email, senha } = userData;
 
     const existingUser = await UserRepository.findByEmail(email);
     if (existingUser) {
-      throw new Error('Email já está em uso');
+      throw new Error("Email já está em uso");
     }
-
 
     return await UserRepository.create(nome, email, senha);
   }
@@ -31,45 +24,37 @@ class UserService {
 
   async getUserById(id) {
     if (!id || isNaN(id)) {
-      throw new Error('ID inválido');
+      throw new Error("ID inválido");
     }
 
     const user = await UserRepository.findById(id);
     if (!user) {
-      throw new Error('Usuário não encontrado');
+      throw new Error("Usuário não encontrado");
     }
 
     return user;
   }
 
-  async updateUser(id, nome, email, senha) {
+  async updateUser(id, userData) {
     if (!id || isNaN(id)) {
-      throw new Error('ID inválido');
+      throw new Error("ID inválido");
     }
-
 
     const existingUser = await UserRepository.findById(id);
     if (!existingUser) {
-      throw new Error('Usuário não encontrado');
+      throw new Error("Usuário não encontrado");
     }
 
-    // Validações
-    if (!nome || !email || !senha) {
-      throw new Error('Nome, email e senha são obrigatórios');
+    const { error } = UserModel.validateUser(userData);
+    if (error) {
+      throw new Error(error.details[0].message);
     }
 
-    if (!this.isValidEmail(email)) {
-      throw new Error('Email inválido');
-    }
-
-    if (senha.length < 6) {
-      throw new Error('Senha deve ter pelo menos 6 caracteres');
-    }
-
+    const { nome, email, senha } = userData;
 
     const userWithEmail = await UserRepository.findByEmail(email);
     if (userWithEmail && userWithEmail.id !== parseInt(id)) {
-      throw new Error('Email já está em uso por outro usuário');
+      throw new Error("Email já está em uso por outro usuário");
     }
 
     return await UserRepository.update(id, nome, email, senha);
@@ -77,21 +62,17 @@ class UserService {
 
   async deleteUser(id) {
     if (!id || isNaN(id)) {
-      throw new Error('ID inválido');
+      throw new Error("ID inválido");
     }
 
     const user = await UserRepository.findById(id);
     if (!user) {
-      throw new Error('Usuário não encontrado');
+      throw new Error("Usuário não encontrado");
     }
 
     return await UserRepository.delete(id);
   }
-
-  isValidEmail(email) {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return emailRegex.test(email);
-  }
 }
 
 module.exports = new UserService();
+

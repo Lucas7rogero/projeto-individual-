@@ -3,10 +3,10 @@ const SubscriptionService = require("../services/SubscriptionService");
 exports.criarSubscription = async (req, res) => {
   try {
     const { user_id, event_id } = req.body;
-    const subscription = await SubscriptionService.createSubscription(
+    const subscription = await SubscriptionService.createSubscription({
       user_id,
-      event_id
-    );
+      event_id,
+    });
     res.status(201).json(subscription);
   } catch (err) {
     res.status(400).json({ error: err.message });
@@ -27,8 +27,10 @@ exports.editarSubscription = async (req, res) => {
     const { user_id, event_id } = req.body;
     const subscription = await SubscriptionService.updateSubscription(
       req.params.id,
-      user_id,
-      event_id
+      {
+        user_id,
+        event_id,
+      }
     );
     res.status(200).json(subscription);
   } catch (err) {
@@ -50,3 +52,4 @@ exports.excluirSubscription = async (req, res) => {
     res.status(400).json({ error: err.message });
   }
 };
+

@@ -1,16 +1,17 @@
 const SubscriptionRepository = require("../repositories/SubscriptionRepository");
 const UserRepository = require("../repositories/UserRepository");
 const EventRepository = require("../repositories/EventRepository");
+const SubscriptionModel = require("../models/SubscriptionModel");
 
 class SubscriptionService {
-  async createSubscription(user_id, event_id) {
-    if (!user_id || !event_id) {
-      throw new Error("ID do usuário e ID do evento são obrigatórios");
+  async createSubscription(subscriptionData) {
+    console.log("SubscriptionService - createSubscription: subscriptionData", subscriptionData);
+    const { error } = SubscriptionModel.validateSubscription(subscriptionData);
+    if (error) {
+      throw new Error(error.details[0].message);
     }
 
-    if (isNaN(user_id) || isNaN(event_id)) {
-      throw new Error("IDs devem ser números válidos");
-    }
+    const { user_id, event_id } = subscriptionData;
 
     const user = await UserRepository.findById(user_id);
     if (!user) {
@@ -98,23 +99,14 @@ class SubscriptionService {
     return await SubscriptionRepository.countByEventId(event_id);
   }
 
-  async updateSubscription(id, user_id, event_id) {
-    if (!id || isNaN(id)) {
-      throw new Error("ID inválido");
+  async updateSubscription(id, subscriptionData) {
+    console.log("SubscriptionService - updateSubscription: subscriptionData", subscriptionData);
+    const { error } = SubscriptionModel.validateSubscription(subscriptionData);
+    if (error) {
+      throw new Error(error.details[0].message);
     }
 
-    const existingSubscription = await SubscriptionRepository.findById(id);
-    if (!existingSubscription) {
-      throw new Error("Inscrição não encontrada");
-    }
-
-    if (!user_id || !event_id) {
-      throw new Error("ID do usuário e ID do evento são obrigatórios");
-    }
-
-    if (isNaN(user_id) || isNaN(event_id)) {
-      throw new Error("IDs devem ser números válidos");
-    }
+    const { user_id, event_id } = subscriptionData;
 
     const user = await UserRepository.findById(user_id);
     if (!user) {
@@ -158,3 +150,4 @@ class SubscriptionService {
 }
 
 module.exports = new SubscriptionService();
+

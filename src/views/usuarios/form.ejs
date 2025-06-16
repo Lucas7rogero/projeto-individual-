@@ -119,6 +119,11 @@
       color: #b0b7c3;
       opacity: 1;
     }
+    .error-message {
+      color: red;
+      font-size: 0.9em;
+      margin-top: 5px;
+    }
     @media (max-width: 600px) {
       .container {
         padding: 1rem;
@@ -142,18 +147,22 @@
         action="<%= usuario ? '/usuarios/' + usuario.id : '/usuarios' %>" 
         method="POST" 
         class="form"
+        id="userForm"
       >
         <div class="form-group">
           <label for="nome">Nome do Usuário *</label>
-          <input type="text" id="nome" name="nome" required maxlength="255" value="<%= usuario ? usuario.nome : '' %>" placeholder="Digite seu nome" />
+          <input type="text" id="nome" name="nome" required minlength="3" maxlength="255" value="<%= usuario ? usuario.nome : '' %>" placeholder="Digite seu nome" />
+          <div class="error-message" id="nomeError"></div>
         </div>
         <div class="form-group">
           <label for="email">Email do Usuário *</label>
-          <input type="email" id="email" name="email" required maxlength="255" value="<%= usuario ? usuario.email : '' %>" placeholder="Digite seu email" />
+          <input type="email" id="email" name="email" required minlength="5" maxlength="255" value="<%= usuario ? usuario.email : '' %>" placeholder="Digite seu email" />
+          <div class="error-message" id="emailError"></div>
         </div>
         <div class="form-group">
           <label for="senha">Senha do Usuário *</label>
           <input type="password" id="senha" name="senha" <%= usuario ? '' : 'required' %> minlength="6" placeholder="Digite sua senha" />
+          <div class="error-message" id="senhaError"></div>
         </div>
         <div class="form-group">
           <label for="evento">Evento *</label>
@@ -165,6 +174,7 @@
             <option value="PAGODE" <%= usuario && usuario.evento === 'PAGODE' ? 'selected' : '' %>>PAGODE</option>
             <option value="SERTANEJO" <%= usuario && usuario.evento === 'SERTANEJO' ? 'selected' : '' %>>SERTANEJO</option>
           </select>
+          <div class="error-message" id="eventoError"></div>
         </div>
         <div class="form-actions">
           <button type="submit" class="btn btn-primary">
@@ -175,5 +185,56 @@
       </form>
     </div>
   </main>
+  <script>
+    document.getElementById('userForm').addEventListener('submit', function(event) {
+      let isValid = true;
+
+      // Validação do Nome
+      const nome = document.getElementById('nome');
+      const nomeError = document.getElementById('nomeError');
+      if (nome.value.length < 3 || nome.value.length > 255) {
+        nomeError.textContent = 'O nome deve ter entre 3 e 255 caracteres.';
+        isValid = false;
+      } else {
+        nomeError.textContent = '';
+      }
+
+      // Validação do Email
+      const email = document.getElementById('email');
+      const emailError = document.getElementById('emailError');
+      const emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
+      if (!emailPattern.test(email.value)) {
+        emailError.textContent = 'Por favor, insira um email válido.';
+        isValid = false;
+      } else {
+        emailError.textContent = '';
+      }
+
+      // Validação da Senha
+      const senha = document.getElementById('senha');
+      const senhaError = document.getElementById('senhaError');
+      if (senha.hasAttribute('required') && senha.value.length < 6) {
+        senhaError.textContent = 'A senha deve ter pelo menos 6 caracteres.';
+        isValid = false;
+      } else {
+        senhaError.textContent = '';
+      }
+
+      // Validação do Evento
+      const evento = document.getElementById('evento');
+      const eventoError = document.getElementById('eventoError');
+      if (evento.value === '') {
+        eventoError.textContent = 'Por favor, selecione um evento.';
+        isValid = false;
+      } else {
+        eventoError.textContent = '';
+      }
+
+      if (!isValid) {
+        event.preventDefault(); // Impede o envio do formulário se houver erros
+      }
+    });
+  </script>
 </body>
 </html>
+

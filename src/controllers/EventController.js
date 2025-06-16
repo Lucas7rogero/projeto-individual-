@@ -3,13 +3,13 @@ const EventService = require("../services/EventService");
 exports.criarEvent = async (req, res) => {
   try {
     const { titulo, descricao, local, data, user_id } = req.body;
-    const event = await EventService.createEvent(
+    const event = await EventService.createEvent({
       titulo,
       descricao,
       local,
       data,
-      user_id
-    );
+      user_id,
+    });
     res.status(201).json(event);
   } catch (err) {
     res.status(400).json({ error: err.message });
@@ -28,14 +28,13 @@ exports.listarEvents = async (req, res) => {
 exports.editarEvent = async (req, res) => {
   try {
     const { titulo, descricao, local, data, user_id } = req.body;
-    const event = await EventService.updateEvent(
-      req.params.id,
+    const event = await EventService.updateEvent(req.params.id, {
       titulo,
       descricao,
       local,
       data,
-      user_id
-    );
+      user_id,
+    });
     res.status(200).json(event);
   } catch (err) {
     if (err.message === "Evento não encontrado") {
@@ -56,3 +55,4 @@ exports.excluirEvent = async (req, res) => {
     res.status(400).json({ error: err.message });
   }
 };
+

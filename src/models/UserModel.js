@@ -1,4 +1,15 @@
-const pool = require('../config/db');
+const pool = require("../config/db");
+const Joi = require("joi");
+
+const userSchema = Joi.object({
+  nome: Joi.string().min(3).max(255).required(),
+  email: Joi.string().email().required(),
+  senha: Joi.string().min(6).required(),
+});
+
+exports.validateUser = (user) => {
+  return userSchema.validate(user);
+};
 
 exports.criarUser = async (nome, email, senha) => {
   const query = `
@@ -10,7 +21,7 @@ exports.criarUser = async (nome, email, senha) => {
 };
 
 exports.listarUsers = async () => {
-  const query = 'SELECT * FROM users ORDER BY id';
+  const query = "SELECT * FROM users ORDER BY id";
   const result = await pool.query(query);
   return result.rows;
 };
@@ -26,8 +37,9 @@ exports.editarUser = async (id, nome, email, senha) => {
 };
 
 exports.excluirUser = async (id) => {
-  const query = 'DELETE FROM users WHERE id = $1 RETURNING *';
+  const query = "DELETE FROM users WHERE id = $1 RETURNING *";
   const values = [id];
   const result = await pool.query(query, values);
   return result.rows[0];
 };
+

@@ -3,7 +3,11 @@ const UserService = require("../services/UserService");
 exports.criarUser = async (req, res) => {
   try {
     const { nome, email, senha } = req.body;
-    const user = await UserService.createUser(nome, email, senha);
+    const user = await UserService.createUser({
+      nome,
+      email,
+      senha,
+    });
     res.status(201).json(user);
   } catch (err) {
     res.status(400).json({ error: err.message });
@@ -22,12 +26,11 @@ exports.listarUsers = async (req, res) => {
 exports.editarUser = async (req, res) => {
   try {
     const { nome, email, senha } = req.body;
-    const user = await UserService.updateUser(
-      req.params.id,
+    const user = await UserService.updateUser(req.params.id, {
       nome,
       email,
-      senha
-    );
+      senha,
+    });
     res.status(200).json(user);
   } catch (err) {
     if (err.message === "Usuário não encontrado") {
@@ -48,3 +51,4 @@ exports.excluirUser = async (req, res) => {
     res.status(400).json({ error: err.message });
   }
 };
+

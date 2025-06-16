@@ -27,16 +27,24 @@ router.post("/usuarios", async (req, res) => {
     let user = await UserService.getAllUsers();
     user = user.find((u) => u.email === email);
     if (!user) {
-      user = await UserService.createUser(nome, email, senha);
+      user = await UserService.createUser({ nome, email, senha });
     }
 
-    let eventos = await EventService.getAllEvents();
-    let eventoObj = eventos.find((e) => e.titulo === evento);
-    if (!eventoObj) {
+    let events = await EventService.getAllEvents();
+    let eventObj = events.find((e) => e.titulo === evento);
+    if (!eventObj) {
       return res.status(400).send("Evento não encontrado.");
     }
 
-    await SubscriptionService.createSubscription(user.id, eventoObj.id);
+    // Garantir que user.id e eventObj.id são inteiros antes de passar para o serviço
+    const userId = parseInt(user.id, 10);
+    const eventId = parseInt(eventObj.id, 10);
+
+    if (isNaN(userId) || isNaN(eventId)) {
+      throw new Error("IDs de usuário ou evento inválidos.");
+    }
+
+    await SubscriptionService.createSubscription({ user_id: userId, event_id: eventId });
 
     res.redirect("/inscricoes");
   } catch (err) {
@@ -74,23 +82,17 @@ router.post("/usuarios/:id", async (req, res) => {
       req.params.id
     );
 
-    await UserService.updateUser(
-      inscricao.user_id,
-      nome,
-      email,
-      senha || "123456"
-    );
+    await UserService.updateUser(inscricao.user_id, { nome, email, senha: senha || "123456" });
 
-    let eventos = await EventService.getAllEvents();
-    let eventoObj = eventos.find((e) => e.titulo === evento);
-    if (!eventoObj) {
+    let events = await EventService.getAllEvents();
+    let eventObj = events.find((e) => e.titulo === evento);
+    if (!eventObj) {
       return res.status(400).send("Evento não encontrado.");
     }
 
     await SubscriptionService.updateSubscription(
       inscricao.id,
-      inscricao.user_id,
-      eventoObj.id
+      { user_id: inscricao.user_id, event_id: eventObj.id }
     );
 
     res.redirect("/inscricoes");
@@ -119,3 +121,5 @@ router.delete("/api/subscriptions/:id", async (req, res) => {
 });
 
 module.exports = router;
+
+
