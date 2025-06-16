@@ -36,7 +36,6 @@ router.post("/usuarios", async (req, res) => {
       return res.status(400).send("Evento não encontrado.");
     }
 
-    // Garantir que user.id e eventObj.id são inteiros antes de passar para o serviço
     const userId = parseInt(user.id, 10);
     const eventId = parseInt(eventObj.id, 10);
 

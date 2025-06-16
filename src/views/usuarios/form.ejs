@@ -189,7 +189,6 @@
     document.getElementById('userForm').addEventListener('submit', function(event) {
       let isValid = true;
 
-      // Validação do Nome
       const nome = document.getElementById('nome');
       const nomeError = document.getElementById('nomeError');
       if (nome.value.length < 3 || nome.value.length > 255) {
@@ -199,7 +198,6 @@
         nomeError.textContent = '';
       }
 
-      // Validação do Email
       const email = document.getElementById('email');
       const emailError = document.getElementById('emailError');
       const emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
@@ -210,7 +208,6 @@
         emailError.textContent = '';
       }
 
-      // Validação da Senha
       const senha = document.getElementById('senha');
       const senhaError = document.getElementById('senhaError');
       if (senha.hasAttribute('required') && senha.value.length < 6) {
@@ -220,7 +217,6 @@
         senhaError.textContent = '';
       }
 
-      // Validação do Evento
       const evento = document.getElementById('evento');
       const eventoError = document.getElementById('eventoError');
       if (evento.value === '') {
@@ -231,7 +227,7 @@
       }
 
       if (!isValid) {
-        event.preventDefault(); // Impede o envio do formulário se houver erros
+        event.preventDefault();
       }
     });
   </script>
